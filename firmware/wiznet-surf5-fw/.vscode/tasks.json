@@ -28,6 +28,12 @@
       "type": "shell",
       "command": "cmake --build build --target clean",
       "problemMatcher": [],
+    },    
+    {
+      "label": "download",
+      "type": "shell",
+      "command": "pyocd load -t w7500 build/wiznet-surf5-fw.elf --pack=tools/WIZnet.W7500_DFP.1.0.0",
+      "problemMatcher": [],
     }    
   ]
 }
