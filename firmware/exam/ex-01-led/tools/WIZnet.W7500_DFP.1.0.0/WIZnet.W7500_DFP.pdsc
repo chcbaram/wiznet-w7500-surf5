@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package schemaVersion="1.2" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="PACK.xsd">
+  <vendor>Nuvoton</vendor>
+  <url>https://github.com/OpenNuvoton/cmsis-packs/raw/master/Nuvoton_DFP/</url>
+  <name>NuMicro_DFP</name>
+  <description>Nuvoton ARM Cortex-M NuMicro Family Device Support</description>
+
+  <releases>
+    <release version="1.0.0" date="2023-12-02">
+      First Released
+    </release>
+  </releases>
+
+  <keywords>
+    <!-- keywords for indexing -->
+    <keyword>WIZnet</keyword>
+    <keyword>Device Support</keyword>
+    <keyword>Device Family Package W7500</keyword>
+    <keyword>W7500</keyword>
+  </keywords>
+
+  <devices>
+    <!-- generated, do not modify this section! -->
+    <family Dfamily="W7500 Family" Dvendor="WIZnet:122">
+      <!-- *************************  Subfamily 'Generic'  ***************************** -->
+      <subFamily DsubFamily="Generic">
+        <description>The WIZnet W7500 Series 32-bit microcontroller</description>
+        <!-- *************************  Device 'Generic M051'  ***************************** -->
+        <device Dname="W7500">
+          <processor  Dcore="Cortex-M0"  Dclock="48000000"/>
+          <memory     id="FLASH"   start="0x00000000"  size="0x20000"    startup="1"   default="1"/>
+          <memory     id="SRAM"    start="0x20000000"  size="0x4000"     init   ="0"   default="1"/>
+          <algorithm  name  ="Flash/W7500_128.FLM"     start="0x00000000"  size="0x20000"  RAMstart="0x20000000"  RAMsize="0x4000"  default="1"/>
+        </device>
+      </subFamily>
+    </family>
+  </devices>
+
+</package>
