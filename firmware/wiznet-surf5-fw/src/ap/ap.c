@@ -20,7 +20,8 @@ void apMain(void)
       ledToggle(_DEF_LED1);
     }
 
-    cliMain();    
+    cliMain();   
+    wiznetUpdate(); 
   }
 }
 

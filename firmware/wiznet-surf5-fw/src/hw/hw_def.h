@@ -29,5 +29,12 @@
 #define      HW_CLI_LINE_HIS_MAX    8
 #define      HW_CLI_LINE_BUF_MAX    64
 
+#define _USE_HW_SWTIMER
+#define      HW_SWTIMER_MAX_CH      8
+
+#define _USE_HW_WIZNET
+#define      HW_WIZNET_SOCKET_CMD   0
+#define      HW_WIZNET_SOCKET_DHCP  1
+#define      HW_WIZNET_SOCKET_SNTP  2
 
 #endif

@@ -11,6 +11,8 @@ extern "C" {
 #include "log.h"
 #include "uart.h"
 #include "cli.h"
+#include "swtimer.h"
+#include "wiznet/wiznet.h"
 
 
 bool hwInit(void);

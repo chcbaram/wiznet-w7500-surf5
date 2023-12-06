@@ -1,12 +1,14 @@
 #include "bsp.h"
 
 
+extern void swtimerISR(void);
 
 static volatile uint32_t systick_counter = 0;
 
 void SysTick_Handler(void)
 {
   systick_counter++;
+  swtimerISR();
 }
 
 
