@@ -45,6 +45,7 @@ target_include_directories(${EXECUTABLE} PRIVATE
   src/bsp/device
   src/common 
   src/common/core
+  src/common/ap/include
   src/common/hw/include 
   src/hw
   src/hw/driver

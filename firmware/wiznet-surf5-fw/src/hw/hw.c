@@ -25,6 +25,8 @@ bool hwInit(void)
   logPrintf("Booting..Clock\t\t: %d Mhz\r\n", (int)GetSystemClock()/1000000);
   logPrintf("\n");
 
+  eventInit();
+  
   wiznetInit();
   wiznetDHCP();
   wiznetSNTP();

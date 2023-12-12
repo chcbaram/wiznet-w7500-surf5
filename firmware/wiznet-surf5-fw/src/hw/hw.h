@@ -12,6 +12,7 @@ extern "C" {
 #include "uart.h"
 #include "cli.h"
 #include "swtimer.h"
+#include "event.h"
 #include "wiznet/wiznet.h"
 
 

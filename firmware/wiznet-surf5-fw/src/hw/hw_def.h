@@ -37,4 +37,15 @@
 #define      HW_WIZNET_SOCKET_DHCP  1
 #define      HW_WIZNET_SOCKET_SNTP  2
 
+#define _USE_HW_EVENT
+#define      HW_EVENT_Q_MAX         8
+#define      HW_EVENT_NODE_MAX      16        
+
+
+
+//-- CLI
+//
+#define _USE_CLI_HW_LED             1
+#define _USE_CLI_HW_EVENT           1
+
 #endif
