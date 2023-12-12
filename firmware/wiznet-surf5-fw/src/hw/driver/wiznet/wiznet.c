@@ -12,8 +12,9 @@
 
 #define ETHERNET_BUF_MAX_SIZE (1024 * 2)
 
-
+#if CLI_USE(HW_WIZNET)
 static void cliCmd(cli_args_t *args);
+#endif
 static void wiznetPrintInfo(wiz_NetInfo *p_info);
 static void wizchip_dhcp_init(void);
 static void wizchip_dhcp_assign(void);
@@ -66,8 +67,9 @@ bool wiznetInit(void)
   ctlnetwork(CN_SET_NETINFO, (void *)&net_info);
   wiznetPrintInfo(&net_info);
 
+#if CLI_USE(HW_WIZNET)
   cliAdd("wiznet", cliCmd);
-
+#endif
   return ret;
 }
 
@@ -336,6 +338,7 @@ static void wizchip_dhcp_conflict(void)
   logPrintf("     Conflict IP from DHCP\n");
 }
 
+#if CLI_USE(HW_WIZNET)
 void cliCmd(cli_args_t *args)
 {
   bool ret = false;
@@ -355,3 +358,4 @@ void cliCmd(cli_args_t *args)
     cliPrintf("wiznet info\n");
   }
 }
+#endif

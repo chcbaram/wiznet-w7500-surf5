@@ -8,7 +8,9 @@ bool hwInit(void)
 {
   bspInit();
 
+  #ifdef _USE_HW_CLI
   cliInit();
+  #endif
   logInit();
   swtimerInit();
   ledInit();
@@ -26,7 +28,7 @@ bool hwInit(void)
   logPrintf("\n");
 
   eventInit();
-  
+
   wiznetInit();
   wiznetDHCP();
   wiznetSNTP();

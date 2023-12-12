@@ -47,5 +47,6 @@
 //
 #define _USE_CLI_HW_LED             1
 #define _USE_CLI_HW_EVENT           1
+#define _USE_CLI_HW_WIZNET          1
 
 #endif
