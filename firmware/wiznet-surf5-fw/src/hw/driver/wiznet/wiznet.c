@@ -2,7 +2,7 @@
 #include "swtimer.h"
 #include "cli.h"
 #include "rtc.h"
-
+#include "event.h"
 
 #define SOCKET_DHCP           HW_WIZNET_SOCKET_DHCP
 
@@ -172,18 +172,30 @@ bool wiznetGetInfo(wiznet_info_t *p_info)
 
 void wiznetUpdateDHCP(void)
 {
-  static uint8_t dhcp_state = 0;
-  static uint8_t dhcp_retry = 0;
+  static bool pre_link = false;
+  bool cur_link;
 
 
   if (is_init_dhcp == false)
     return;
 
+  cur_link = wiznetIsLink();  
+  if (cur_link == true && pre_link == false)
+  {
+    DHCP_init(SOCKET_DHCP, dhcp_buf);    
+    dhcp_get_ip_flag = false;
+    logPrintf("[  ] DHCP_init()\n");    
+  }
+  pre_link = cur_link;
+
 
   // Assigned IP through DHCP
   //
-  if (net_info.dhcp == NETINFO_DHCP)
+  if (cur_link == true && net_info.dhcp == NETINFO_DHCP)
   {
+    static uint8_t dhcp_state = 0;
+    static uint8_t dhcp_retry = 0;
+
     dhcp_state = DHCP_run();
 
     switch(dhcp_state)
@@ -195,6 +207,7 @@ void wiznetUpdateDHCP(void)
           wiznetPrintInfo(&net_info);
           logPrintf("     DHCP Leased Time : %ld Sec\n", getDHCPLeasetime());          
           dhcp_get_ip_flag = true;
+          eventPub(EVENT_WIZ_PHY_DHCP, 0);
         }
         break;
 
@@ -210,10 +223,12 @@ void wiznetUpdateDHCP(void)
           ctlnetwork(CN_SET_NETINFO, (void *)&net_info);
 
           logPrintf("[NG] DHCP_FAILED\n");
+          eventPub(EVENT_WIZ_PHY_DHCP, 2);
         }
         else
         {
-          logPrintf("[  ] DHCP RETRY %d\n", dhcp_retry);
+          // logPrintf("[  ] DHCP RETRY %d\n", dhcp_retry);
+          eventPub(EVENT_WIZ_PHY_DHCP, 1);
         }
         break;
 
@@ -259,13 +274,36 @@ void wiznetUpdateSNTP(void)
     // rtc_time.minutes = sntp_time.mm;
     // rtc_time.seconds = sntp_time.ss; 
     // rtcSetTime(&rtc_time);
+    eventPub(EVENT_WIZ_PHY_SNTP, 1);
   }
+}
+
+void wiznetUpdateLink(void)
+{
+  static bool first_run = true;
+  static bool linked = false;
+  bool cur_linked;
+
+  if (first_run)
+  {
+    first_run = false;
+
+    linked = !wiznetIsLink();
+  }
+
+  cur_linked = wiznetIsLink();
+  if (cur_linked != linked)
+  {
+    eventPub(EVENT_WIZ_PHY_LINK, cur_linked);
+  }
+  linked = cur_linked;
 }
 
 void wiznetUpdate(void)
 {
   wiznetUpdateDHCP();
   wiznetUpdateSNTP();
+  wiznetUpdateLink();
 }
 
 void wiznetTimerISR(void *arg)
@@ -305,9 +343,9 @@ void cliCmd(cli_args_t *args)
 
   if (args->argc == 1 && args->isStr(0, "info") == true)
   {
-    cliPrintf("is_init \t: %d\n", is_init);
-    cliPrintf("is_dhcp \t: %d\n", is_init_dhcp);
-    
+    cliPrintf("is_init   \t: %d\n", is_init);
+    cliPrintf("is_dhcp   \t: %d\n", is_init_dhcp);
+    cliPrintf("is_ip_get \t: %s\n", wiznetIsGetIP() ? "True":"False");
     wiznetPrintInfo(&net_info);
     ret = true;
   }  

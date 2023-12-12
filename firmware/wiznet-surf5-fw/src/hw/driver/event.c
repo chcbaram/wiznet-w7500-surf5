@@ -24,7 +24,7 @@ static void cliEvent(cli_args_t *args);
 #endif
 
 static bool is_init = false;
-static bool is_log = false;
+static bool is_log = true;
 static qbuffer_t event_q;
 static event_t event_buf[EVENT_Q_MAX];
 static event_node_t event_node;
